@@ -3,14 +3,52 @@ import './style.css'
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
+import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
+
 
 /**
  * Scene setup
  */
  const scene = new THREE.Scene();
- scene.background = new THREE.Color( 0x99c1ff );
+ scene.background = new THREE.Color( 0x87ceeb );
  const canvas = document.querySelector('#bg')
 
+/**
+ * Loaders
+ */
+// Texture loader
+const textureLoader = new THREE.TextureLoader()
+
+// Draco loader
+const dracoLoader = new DRACOLoader()
+dracoLoader.setDecoderPath('./draco/')
+
+// GLTF loader
+const gltfLoader = new GLTFLoader()
+gltfLoader.setDRACOLoader(dracoLoader)
+
+
+/**
+ * Materials
+ */
+const bakedTexture = textureLoader.load('models/pslv/textures.jpg')
+// and the loaded texture will be flipped on y axis so keep that in  mind
+bakedTexture.flipY = false
+const bakedMaterial = new THREE.MeshBasicMaterial({ map:bakedTexture })
+
+/**
+ * Model
+ */
+gltfLoader.load(
+    'models/pslv/pslv.glb',
+    (gltf) => {
+        gltf.scene.traverse((child)=>{
+            child.material = bakedMaterial
+        })
+        scene.add(gltf.scene)
+    }
+)
 
 /**
  * Sizes
