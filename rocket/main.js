@@ -5,6 +5,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
+import { Vector3 } from 'three';
 
 
 /**
@@ -78,13 +79,15 @@ window.addEventListener('resize', () =>
  */
 // Base camera
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
-camera.position.x = 4
-camera.position.y = 2
-camera.position.z = 4
+camera.position.x = 2
+camera.position.y = 6
+camera.position.z = -4
+
 scene.add(camera)
 
 // Controls
 const controls = new OrbitControls(camera, canvas)
+controls.target = new THREE.Vector3(0,3,-1)
 controls.enableDamping = true
 
 
@@ -103,7 +106,7 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
  * Helpers
  */
  const gridHelper = new THREE.GridHelper(200, 50);
- scene.add(gridHelper)
+//  scene.add(gridHelper)
 
 
 /**
