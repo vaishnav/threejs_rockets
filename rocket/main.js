@@ -36,6 +36,8 @@ gltfLoader.setDRACOLoader(dracoLoader)
 const bakedTexture = textureLoader.load('models/pslv/textures.jpg')
 // and the loaded texture will be flipped on y axis so keep that in  mind
 bakedTexture.flipY = false
+bakedTexture.encoding = THREE.sRGBEncoding
+
 const bakedMaterial = new THREE.MeshBasicMaterial({ map:bakedTexture })
 
 /**
@@ -100,6 +102,7 @@ controls.enableDamping = true
 })
 renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+renderer.outputEncoding = THREE.sRGBEncoding
 
 
 /**
