@@ -6,12 +6,15 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "deploy": "gh-pages -d dist"
   },
   "devDependencies": {
     "vite": "^3.0.0"
   },
+  "homepage": "https://vaishnav.github.io/threejs_rockets/",
   "dependencies": {
+    "gh-pages": "^4.0.0",
     "gsap": "^3.10.4",
     "three": "^0.143.0"
   }
