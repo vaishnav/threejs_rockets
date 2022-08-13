@@ -17,15 +17,36 @@ import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
 /**
  * Loaders
  */
+
+// Loading Manager
+const progressBar = document.querySelector('#progress-bar')
+const progressBarContainer = document.querySelector('#progress-bar-container')
+console.log(progressBar);
+
+const loadingManager = new THREE.LoadingManager(
+    ()=>{
+        setTimeout(()=>{
+            progressBarContainer.style.animation = "fadeInAnimation ease 1s"
+        }, "200")
+        setTimeout(()=>{
+            progressBarContainer.style.display = "none"
+        }, "1200")
+    },
+    (itemUrl, itemLoaded, itemTotal)=>{
+        progressBar.value = (itemLoaded/itemTotal) * 100
+    }
+)
+
+
 // Texture loader
-const textureLoader = new THREE.TextureLoader()
+const textureLoader = new THREE.TextureLoader(loadingManager)
 
 // Draco loader
 const dracoLoader = new DRACOLoader()
 dracoLoader.setDecoderPath('./draco/')
 
 // GLTF loader
-const gltfLoader = new GLTFLoader()
+const gltfLoader = new GLTFLoader(loadingManager)
 gltfLoader.setDRACOLoader(dracoLoader)
 
 
