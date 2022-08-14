@@ -117,8 +117,8 @@ scene.add(camera)
 const controls = new OrbitControls(camera, canvas)
 controls.target = new THREE.Vector3(0,3.3,-1)
 controls.enableDamping = true
-controls.maxAzimuthAngle = 1.75 * Math.PI
-controls.minAzimuthAngle = 0.25 * Math.PI
+// controls.maxAzimuthAngle = 1.75 * Math.PI
+// controls.minAzimuthAngle = 0.25 * Math.PI
 controls.minPolarAngle = 0.2 * Math.PI
 controls.maxPolarAngle = 0.6 * Math.PI
 controls.minDistance = 3    
