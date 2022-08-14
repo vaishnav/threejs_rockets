@@ -112,3 +112,11 @@ animated points
   transition: opacity 0.3s;
   pointer-events: none;
 }
+
+
+@media screen and (max-width: 700px) {
+  .point .text{
+    top: 50px;
+    left: -110px;
+  }
+}
