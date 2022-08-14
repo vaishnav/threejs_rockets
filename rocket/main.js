@@ -26,7 +26,7 @@ console.log(progressBar);
 const loadingManager = new THREE.LoadingManager(
     ()=>{
         setTimeout(()=>{
-            progressBarContainer.style.animation = "fadeInAnimation ease 1s"
+            progressBarContainer.style.animation = "fadeOutAnimation ease 1s"
         }, "200")
         setTimeout(()=>{
             progressBarContainer.style.display = "none"
@@ -72,6 +72,18 @@ gltfLoader.load(
         scene.add(gltf.scene)
     }
 )
+
+/**
+ * Points
+ */
+
+const points = [
+    {
+        position: new THREE.Vector3(1.55, 0.3, -0.6),
+        element: document.querySelector('.point-0')
+    }
+]
+// console.log(points);
 
 /**
  * Sizes
