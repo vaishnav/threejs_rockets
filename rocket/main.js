@@ -146,7 +146,28 @@ renderer.outputEncoding = THREE.sRGBEncoding
     {
         position: new THREE.Vector3(-0.16, 1.5, -0.95),
         element: document.querySelector('.point-0')
+    },
+    {
+        position: new THREE.Vector3(0, 2.5, -0.9),
+        element: document.querySelector('.point-1')
+    },
+    {
+        position: new THREE.Vector3(0, 3.5, -0.9),
+        element: document.querySelector('.point-2')
+    },
+    {
+        position: new THREE.Vector3(0, 4, -0.9),
+        element: document.querySelector('.point-3')
+    },
+    {
+        position: new THREE.Vector3(0, 4.5, -0.9),
+        element: document.querySelector('.point-4')
+    },
+    {
+        position: new THREE.Vector3(-0.5, 5, -0.9),
+        element: document.querySelector('.point-5')
     }
+
 ]
 // console.log(points);
 
@@ -160,9 +181,9 @@ renderer.outputEncoding = THREE.sRGBEncoding
 const geometry = new THREE.BoxGeometry( 0.1, 0.1, 0.1 );
 const material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
 const cube = new THREE.Mesh( geometry, material );
-cube.position.x = points[0].position.x
-cube.position.y = points[0].position.y
-cube.position.z = points[0].position.z
+cube.position.x = points[1].position.x
+cube.position.y = points[1].position.y
+cube.position.z = points[1].position.z
 // scene.add( cube );
 
 
