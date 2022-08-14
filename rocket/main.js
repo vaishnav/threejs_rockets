@@ -6,6 +6,8 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
 
+import { Raycaster } from 'three'
+
 
 /**
  * Scene setup
@@ -23,6 +25,8 @@ const progressBar = document.querySelector('#progress-bar')
 const progressBarContainer = document.querySelector('#progress-bar-container')
 console.log(progressBar);
 
+let sceneReady = false
+
 const loadingManager = new THREE.LoadingManager(
     ()=>{
         setTimeout(()=>{
@@ -30,6 +34,7 @@ const loadingManager = new THREE.LoadingManager(
         }, "200")
         setTimeout(()=>{
             progressBarContainer.style.display = "none"
+            sceneReady = true
         }, "1200")
     },
     (itemUrl, itemLoaded, itemTotal)=>{
@@ -73,17 +78,6 @@ gltfLoader.load(
     }
 )
 
-/**
- * Points
- */
-
-const points = [
-    {
-        position: new THREE.Vector3(1.55, 0.3, -0.6),
-        element: document.querySelector('.point-0')
-    }
-]
-// console.log(points);
 
 /**
  * Sizes
@@ -127,7 +121,7 @@ controls.maxAzimuthAngle = 1.75 * Math.PI
 controls.minAzimuthAngle = 0.25 * Math.PI
 controls.minPolarAngle = 0.2 * Math.PI
 controls.maxPolarAngle = 0.6 * Math.PI
-controls.minDistance = 5    
+controls.minDistance = 3    
 controls.maxDistance = 14
 controls.panSpeed = 0.5
 controls.rotateSpeed = 0.76
@@ -144,6 +138,18 @@ renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 renderer.outputEncoding = THREE.sRGBEncoding
 
+/**
+ * Points
+ */
+
+ const points = [
+    {
+        position: new THREE.Vector3(-0.16, 1.5, -0.95),
+        element: document.querySelector('.point-0')
+    }
+]
+// console.log(points);
+
 
 /**
  * Helpers
@@ -151,16 +157,58 @@ renderer.outputEncoding = THREE.sRGBEncoding
  const gridHelper = new THREE.GridHelper(200, 50);
 //  scene.add(gridHelper)
 
+const geometry = new THREE.BoxGeometry( 0.1, 0.1, 0.1 );
+const material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+const cube = new THREE.Mesh( geometry, material );
+cube.position.x = points[0].position.x
+cube.position.y = points[0].position.y
+cube.position.z = points[0].position.z
+// scene.add( cube );
+
 
 /**
  * Animation Loop
  */
 
+const raycaster = new Raycaster()
+
 function animate() {
-    requestAnimationFrame(animate);
-
+    
     controls.update();
+    if(sceneReady){
+        for(const point of points){
+            const screenPosition = point.position.clone()
+            screenPosition.project(camera)
 
+            console.log(screenPosition.x);
+
+            raycaster.setFromCamera(screenPosition, camera)
+            const intersects = raycaster.intersectObjects(scene.children, true)
+
+            if(intersects.length === 0){
+                point.element.classList.add('visible')
+            }
+            else{
+                const intersectDistance = intersects[0].distance
+                const pointDistance = point.position.distanceTo(camera.position)
+
+                if(intersectDistance < pointDistance){
+                    point.element.classList.remove('visible')
+                }
+                else{
+                    point.element.classList.add('visible')
+                }
+            }
+            
+            const translateX = (screenPosition.x * sizes.width * 0.5)-20 ;
+            const translateY = (- screenPosition.y * sizes.height * 0.5)-20;
+            // console.log(screenPosition.x);
+            point.element.style.transform = `translateX(${translateX}px) translateY(${translateY}px)`
+        }
+    
+    }
+    
+    requestAnimationFrame(animate);
     renderer.render(scene, camera);
 }
 
