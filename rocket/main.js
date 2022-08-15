@@ -23,7 +23,7 @@ import { Raycaster } from 'three'
 // Loading Manager
 const progressBar = document.querySelector('#progress-bar')
 const progressBarContainer = document.querySelector('#progress-bar-container')
-console.log(progressBar);
+// console.log(progressBar);
 
 let sceneReady = false
 
@@ -201,7 +201,7 @@ function animate() {
             const screenPosition = point.position.clone()
             screenPosition.project(camera)
 
-            console.log(screenPosition.x);
+            // console.log(screenPosition.x);
 
             raycaster.setFromCamera(screenPosition, camera)
             const intersects = raycaster.intersectObjects(scene.children, true)
